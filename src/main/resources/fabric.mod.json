@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "searchable-resource-packs",
+  "version": "${version}",
+  "name": "Searchable Resource Packs",
+  "description": "TODO",
+  "authors": [
+    "MrMelon54"
+  ],
+  "contact": {
+    "homepage": "https://minecraft.onpointcoding.net/mods/searchableresourcepacks",
+    "sources": "https://github.com/MrMelon54/searchable-resource-packs-fabric"
+  },
+  "license": "MIT",
+  "icon": "assets/SearchableResourcePacks/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "net.onpointcoding.searchableresourcepacks.client.SearchableResourcePacksClient"
+    ]
+  },
+  "mixins": [
+    "SearchableResourcePacks.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.7",
+    "fabric": "*",
+    "minecraft": "1.17.x"
+  }
+}
