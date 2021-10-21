@@ -1,4 +1,4 @@
-# Searchable Resource Packs
+# Enhanced Searchability
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W7W1607S8)
 
@@ -20,4 +20,4 @@ This mod adds search bars into the resource packs list
 
 ## Download
 
-- [CurseForge](https://www.curseforge.com/minecraft/mc-mods/searchable-resource-packs)
+- [CurseForge](https://www.curseforge.com/minecraft/mc-mods/enhanced-searchability)

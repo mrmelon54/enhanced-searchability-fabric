@@ -12,7 +12,7 @@
     "sources": "https://github.com/MrMelon54/enhanced-searchability-fabric"
   },
   "license": "MIT",
-  "icon": "assets/EnhancedSearchability/icon.png",
+  "icon": "assets/enhancedsearchability/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [

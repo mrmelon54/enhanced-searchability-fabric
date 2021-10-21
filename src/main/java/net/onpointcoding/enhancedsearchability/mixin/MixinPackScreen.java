@@ -73,14 +73,14 @@ public abstract class MixinPackScreen extends Screen {
     }
 
     ClearableTextFieldDual addSearchBox(MinecraftClient mc, PackListWidget packListWidget, TextFieldWidget textFieldWidget, Text packListHeader, int leftPos) {
-        textFieldWidget = new TextFieldWidget(mc.textRenderer, packListWidget.getRowLeft() - 1, 47, packListWidget.getRowWidth() - 22, 18, textFieldWidget, new TranslatableText("searchableresourcepacks.searchbox"));
+        textFieldWidget = new TextFieldWidget(mc.textRenderer, packListWidget.getRowLeft() - 1, 47, packListWidget.getRowWidth() - 22, 18, textFieldWidget, new TranslatableText("enhancedsearchability.searchbox"));
         textFieldWidget.setChangedListener((search) -> {
             if (packListWidget instanceof PackListWidgetDuckProvider duckProvider)
                 duckProvider.filter(() -> search);
         });
         this.addSelectableChild(textFieldWidget);
         TextFieldWidget finalTextFieldWidget = textFieldWidget;
-        ButtonWidget clearButton = this.addDrawableChild(new ButtonWidget(packListWidget.getRowLeft() + packListWidget.getRowWidth() - 22, 46, 20, 20, new TranslatableText("searchableresourcepacks.clearbutton"), buttonWidget -> finalTextFieldWidget.setText("")));
+        ButtonWidget clearButton = this.addDrawableChild(new ButtonWidget(packListWidget.getRowLeft() + packListWidget.getRowWidth() - 22, 46, 20, 20, new TranslatableText("enhancedsearchability.clearbutton"), buttonWidget -> finalTextFieldWidget.setText("")));
         return new ClearableTextFieldDual(textFieldWidget, clearButton);
     }
 
