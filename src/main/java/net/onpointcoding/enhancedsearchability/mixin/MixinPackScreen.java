@@ -15,7 +15,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
-import net.onpointcoding.enhancedsearchability.duck.PackListWidgetDuckProvider;
+import net.onpointcoding.enhancedsearchability.duck.ListWidgetDuckProvider;
 import net.onpointcoding.enhancedsearchability.utils.ClearableTextFieldDual;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -68,14 +68,14 @@ public abstract class MixinPackScreen extends Screen {
     }
 
     void setupOriginalPackListOffset(PackListWidget packListWidget) {
-        if (packListWidget instanceof PackListWidgetDuckProvider duck)
+        if (packListWidget instanceof ListWidgetDuckProvider duck)
             duck.hideHeaderAndShift();
     }
 
     ClearableTextFieldDual addSearchBox(MinecraftClient mc, PackListWidget packListWidget, TextFieldWidget textFieldWidget, Text packListHeader, int leftPos) {
         textFieldWidget = new TextFieldWidget(mc.textRenderer, packListWidget.getRowLeft() - 1, 47, packListWidget.getRowWidth() - 22, 18, textFieldWidget, new TranslatableText("enhancedsearchability.searchbox"));
         textFieldWidget.setChangedListener((search) -> {
-            if (packListWidget instanceof PackListWidgetDuckProvider duckProvider)
+            if (packListWidget instanceof ListWidgetDuckProvider duckProvider)
                 duckProvider.filter(() -> search);
         });
         this.addSelectableChild(textFieldWidget);
@@ -113,7 +113,7 @@ public abstract class MixinPackScreen extends Screen {
         bufferBuilder.vertex(left, top, 0).texture(left / 32f, top / 32f).color(32, 32, 32, 255).next();
         tessellator.draw();
 
-        Text text1 = packListWidget instanceof PackListWidgetDuckProvider duck ? duck.getHeaderText() : new LiteralText("");
+        Text text1 = packListWidget instanceof ListWidgetDuckProvider duck ? duck.getHeaderText() : new LiteralText("");
         Text text = (new LiteralText("")).append(text1).formatted(Formatting.UNDERLINE, Formatting.BOLD);
         mc.textRenderer.draw(matrices, text, (float) (left + w / 2 - mc.textRenderer.getWidth(text) / 2), 35, 0xffffff);
     }
@@ -121,24 +121,24 @@ public abstract class MixinPackScreen extends Screen {
     @Inject(method = "updatePackLists", at = @At("HEAD"), cancellable = true)
     private void injected_updatePackLists(CallbackInfo ci) {
         if (this.client != null) {
-            if (this.availablePackList instanceof PackListWidgetDuckProvider duckProvider && this.availablePackSearchBox != null) {
+            if (this.availablePackList instanceof ListWidgetDuckProvider duckProvider && this.availablePackSearchBox != null) {
                 customUpdatePackList(this.client, this.availablePackList, duckProvider, this.organizer.getDisabledPacks());
                 duckProvider.filter(() -> this.availablePackSearchBox.getText());
             }
-            if (this.selectedPackList instanceof PackListWidgetDuckProvider duckProvider && this.selectedPackSearchBox != null) {
+            if (this.selectedPackList instanceof ListWidgetDuckProvider duckProvider && this.selectedPackSearchBox != null) {
                 customUpdatePackList(this.client, this.selectedPackList, duckProvider, this.organizer.getEnabledPacks());
                 duckProvider.filter(() -> this.selectedPackSearchBox.getText());
-                this.doneButton.active = !duckProvider.getSyncStore().isEmpty();
+                this.doneButton.active = !duckProvider.getSyncStoreRP().isEmpty();
             }
             ci.cancel();
         }
     }
 
-    private void customUpdatePackList(MinecraftClient mc, PackListWidget widget, PackListWidgetDuckProvider duck, Stream<ResourcePackOrganizer.Pack> packs) {
-        duck.getSyncStore().clear();
+    private void customUpdatePackList(MinecraftClient mc, PackListWidget widget, ListWidgetDuckProvider duck, Stream<ResourcePackOrganizer.Pack> packs) {
+        duck.getSyncStoreRP().clear();
         packs.forEach((pack) -> {
             PackListWidget.ResourcePackEntry resourcePackEntry = new PackListWidget.ResourcePackEntry(mc, widget, this, pack);
-            duck.getSyncStore().add(resourcePackEntry);
+            duck.getSyncStoreRP().add(resourcePackEntry);
         });
     }
 

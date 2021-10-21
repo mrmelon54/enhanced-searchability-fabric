@@ -1,10 +1,11 @@
 package net.onpointcoding.enhancedsearchability.mixin;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.multiplayer.MultiplayerServerListWidget;
 import net.minecraft.client.gui.screen.pack.PackListWidget;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.text.Text;
-import net.onpointcoding.enhancedsearchability.duck.PackListWidgetDuckProvider;
+import net.onpointcoding.enhancedsearchability.duck.ListWidgetDuckProvider;
 import net.onpointcoding.enhancedsearchability.duck.ResourcePackEntryDuckProvider;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,7 +19,7 @@ import java.util.Locale;
 import java.util.function.Supplier;
 
 @Mixin(PackListWidget.class)
-public abstract class MixinPackListWidget extends EntryListWidget<PackListWidget.ResourcePackEntry> implements PackListWidgetDuckProvider {
+public abstract class MixinPackListWidget extends EntryListWidget<PackListWidget.ResourcePackEntry> implements ListWidgetDuckProvider {
     @Shadow
     @Final
     private Text title;
@@ -75,7 +76,12 @@ public abstract class MixinPackListWidget extends EntryListWidget<PackListWidget
     }
 
     @Override
-    public List<PackListWidget.ResourcePackEntry> getSyncStore() {
+    public List<PackListWidget.ResourcePackEntry> getSyncStoreRP() {
         return storeChildren;
+    }
+
+    @Override
+    public List<MultiplayerServerListWidget.ServerEntry> getSyncStoreServer() {
+        return null;
     }
 }

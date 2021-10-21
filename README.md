@@ -12,7 +12,11 @@ Logo made by [CarbonGhost](https://github.com/CarbonGhost)
 
 ## Info
 
-This mod adds search bars into the resource packs list
+This mod adds more search bars into the UI:
+
+- Resource pack selector screen
+- Datapack selector screen
+- Multiplayer screen
 
 ## Discord
 
