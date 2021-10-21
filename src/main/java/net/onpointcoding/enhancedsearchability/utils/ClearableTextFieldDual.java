@@ -1,4 +1,4 @@
-package net.onpointcoding.searchableresourcepacks.utils;
+package net.onpointcoding.enhancedsearchability.utils;
 
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;

@@ -1,4 +1,4 @@
-package net.onpointcoding.searchableresourcepacks.duck;
+package net.onpointcoding.enhancedsearchability.duck;
 
 import net.minecraft.client.gui.screen.pack.PackListWidget;
 import net.minecraft.text.Text;

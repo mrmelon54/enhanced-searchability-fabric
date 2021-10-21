@@ -1,11 +1,11 @@
-package net.onpointcoding.searchableresourcepacks.mixin;
+package net.onpointcoding.enhancedsearchability.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.pack.PackListWidget;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.text.Text;
-import net.onpointcoding.searchableresourcepacks.duck.PackListWidgetDuckProvider;
-import net.onpointcoding.searchableresourcepacks.duck.ResourcePackEntryDuckProvider;
+import net.onpointcoding.enhancedsearchability.duck.PackListWidgetDuckProvider;
+import net.onpointcoding.enhancedsearchability.duck.ResourcePackEntryDuckProvider;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

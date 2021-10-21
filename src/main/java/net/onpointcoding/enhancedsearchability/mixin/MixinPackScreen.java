@@ -1,4 +1,4 @@
-package net.onpointcoding.searchableresourcepacks.mixin;
+package net.onpointcoding.enhancedsearchability.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
@@ -15,8 +15,8 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
-import net.onpointcoding.searchableresourcepacks.duck.PackListWidgetDuckProvider;
-import net.onpointcoding.searchableresourcepacks.utils.ClearableTextFieldDual;
+import net.onpointcoding.enhancedsearchability.duck.PackListWidgetDuckProvider;
+import net.onpointcoding.enhancedsearchability.utils.ClearableTextFieldDual;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
