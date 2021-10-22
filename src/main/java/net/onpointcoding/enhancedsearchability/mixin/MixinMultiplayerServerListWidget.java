@@ -1,7 +1,6 @@
 package net.onpointcoding.enhancedsearchability.mixin;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerServerListWidget;
 import net.minecraft.client.gui.screen.pack.PackListWidget;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
@@ -26,13 +25,8 @@ import java.util.stream.Stream;
 public class MixinMultiplayerServerListWidget extends AlwaysSelectedEntryListWidget<MultiplayerServerListWidget.Entry> implements ListWidgetDuckProvider {
     @Shadow
     @Final
-    private MultiplayerScreen screen;
-    @Shadow
-    @Final
-    private List<MultiplayerServerListWidget.LanServerEntry> lanServers;
-    @Shadow
-    @Final
     private MultiplayerServerListWidget.Entry scanningEntry;
+
     private final List<MultiplayerServerListWidget.ServerEntry> serverSyncStore = new ArrayList<>();
     private final List<MultiplayerServerListWidget.LanServerEntry> lanServerSyncStore = new ArrayList<>();
     private Supplier<String> searchTextStore = () -> "";
@@ -94,13 +88,8 @@ public class MixinMultiplayerServerListWidget extends AlwaysSelectedEntryListWid
     }
 
     @Override
-    public List<MultiplayerServerListWidget.ServerEntry> getSyncStoreServer() {
-        return serverSyncStore;
-    }
-
-    @Override
     public void hideHeaderAndShift() {
-        this.top += 25;
+        this.top += 15;
     }
 
     @Override

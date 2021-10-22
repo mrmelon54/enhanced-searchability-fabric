@@ -16,11 +16,9 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.onpointcoding.enhancedsearchability.duck.ListWidgetDuckProvider;
-import net.onpointcoding.enhancedsearchability.utils.ClearableTextFieldDual;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -38,16 +36,12 @@ public abstract class MixinPackScreen extends Screen {
     @Shadow
     @Final
     private ResourcePackOrganizer organizer;
-    @Unique
+
     private TextFieldWidget availablePackSearchBox;
-    @Unique
     private TextFieldWidget selectedPackSearchBox;
 
     @Shadow
     public abstract void render(MatrixStack matrices, int mouseX, int mouseY, float delta);
-
-    private ButtonWidget availablePackClearButton;
-    private ButtonWidget selectedPackClearButton;
 
     protected MixinPackScreen(Text text) {
         super(text);
@@ -56,12 +50,8 @@ public abstract class MixinPackScreen extends Screen {
     @Inject(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/pack/PackScreen;refresh()V", shift = At.Shift.BEFORE))
     private void injected_init(CallbackInfo ci) {
         MinecraftClient mc = MinecraftClient.getInstance();
-        ClearableTextFieldDual a = addSearchBox(mc, this.availablePackList, this.availablePackSearchBox, new TranslatableText("pack.available.title"), this.width / 2 - 4 - 200);
-        this.availablePackSearchBox = a.getTextFieldWidget();
-        this.availablePackClearButton = a.getClearButton();
-        ClearableTextFieldDual b = addSearchBox(mc, this.selectedPackList, this.selectedPackSearchBox, new TranslatableText("pack.selected.title"), this.width / 2 + 4);
-        this.selectedPackSearchBox = b.getTextFieldWidget();
-        this.selectedPackClearButton = b.getClearButton();
+        this.availablePackSearchBox = addSearchBox(mc, this.availablePackList, this.availablePackSearchBox);
+        this.selectedPackSearchBox = addSearchBox(mc, this.selectedPackList, this.selectedPackSearchBox);
 
         setupOriginalPackListOffset(this.availablePackList);
         setupOriginalPackListOffset(this.selectedPackList);
@@ -72,16 +62,14 @@ public abstract class MixinPackScreen extends Screen {
             duck.hideHeaderAndShift();
     }
 
-    ClearableTextFieldDual addSearchBox(MinecraftClient mc, PackListWidget packListWidget, TextFieldWidget textFieldWidget, Text packListHeader, int leftPos) {
-        textFieldWidget = new TextFieldWidget(mc.textRenderer, packListWidget.getRowLeft() - 1, 47, packListWidget.getRowWidth() - 22, 18, textFieldWidget, new TranslatableText("enhancedsearchability.searchbox"));
+    TextFieldWidget addSearchBox(MinecraftClient mc, PackListWidget packListWidget, TextFieldWidget textFieldWidget) {
+        textFieldWidget = new TextFieldWidget(mc.textRenderer, packListWidget.getRowLeft() - 1, 47, packListWidget.getRowWidth() - 2, 20, textFieldWidget, new TranslatableText("enhancedsearchability.searchbox"));
         textFieldWidget.setChangedListener((search) -> {
             if (packListWidget instanceof ListWidgetDuckProvider duckProvider)
                 duckProvider.filter(() -> search);
         });
         this.addSelectableChild(textFieldWidget);
-        TextFieldWidget finalTextFieldWidget = textFieldWidget;
-        ButtonWidget clearButton = this.addDrawableChild(new ButtonWidget(packListWidget.getRowLeft() + packListWidget.getRowWidth() - 22, 46, 20, 20, new TranslatableText("enhancedsearchability.clearbutton"), buttonWidget -> finalTextFieldWidget.setText("")));
-        return new ClearableTextFieldDual(textFieldWidget, clearButton);
+        return textFieldWidget;
     }
 
     @Inject(method = "render", at = @At("TAIL"))
@@ -150,14 +138,6 @@ public abstract class MixinPackScreen extends Screen {
         }
         if (this.selectedPackSearchBox != null && this.selectedPackSearchBox.mouseClicked(mouseX, mouseY, button)) {
             this.setFocused(this.selectedPackSearchBox);
-            return true;
-        }
-        if (this.availablePackClearButton != null && this.availablePackClearButton.mouseClicked(mouseX, mouseY, button)) {
-            this.setFocused(this.availablePackClearButton);
-            return true;
-        }
-        if (this.selectedPackClearButton != null && this.selectedPackClearButton.mouseClicked(mouseX, mouseY, button)) {
-            this.setFocused(this.selectedPackClearButton);
             return true;
         }
         return super.mouseClicked(mouseX, mouseY, button);

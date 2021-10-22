@@ -14,7 +14,5 @@ public interface ListWidgetDuckProvider {
 
     List<PackListWidget.ResourcePackEntry> getSyncStoreRP();
 
-    List<MultiplayerServerListWidget.ServerEntry> getSyncStoreServer();
-
     void hideHeaderAndShift();
 }

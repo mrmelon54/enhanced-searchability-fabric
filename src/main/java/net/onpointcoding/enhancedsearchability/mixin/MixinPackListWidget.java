@@ -1,7 +1,6 @@
 package net.onpointcoding.enhancedsearchability.mixin;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.multiplayer.MultiplayerServerListWidget;
 import net.minecraft.client.gui.screen.pack.PackListWidget;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.text.Text;
@@ -31,7 +30,7 @@ public abstract class MixinPackListWidget extends EntryListWidget<PackListWidget
 
     @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/pack/PackListWidget;setRenderHeader(ZI)V"))
     private void redirected_setRenderHeader(PackListWidget instance, boolean b, int i) {
-        this.setRenderHeader(b, i + 20);
+        this.setRenderHeader(b, i + 22);
     }
 
     @Override
@@ -80,8 +79,4 @@ public abstract class MixinPackListWidget extends EntryListWidget<PackListWidget
         return storeChildren;
     }
 
-    @Override
-    public List<MultiplayerServerListWidget.ServerEntry> getSyncStoreServer() {
-        return null;
-    }
 }
