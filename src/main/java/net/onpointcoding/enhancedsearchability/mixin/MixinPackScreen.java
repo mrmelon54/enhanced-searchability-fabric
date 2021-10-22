@@ -1,15 +1,12 @@
 package net.onpointcoding.enhancedsearchability.mixin;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.pack.PackListWidget;
 import net.minecraft.client.gui.screen.pack.PackScreen;
 import net.minecraft.client.gui.screen.pack.ResourcePackOrganizer;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -83,23 +80,8 @@ public abstract class MixinPackScreen extends Screen {
     }
 
     void renderOverlayHeader(MatrixStack matrices, MinecraftClient mc, PackListWidget packListWidget) {
-        int top = 32;
-        int bottom = (int) (top + 9 * 1.5f) + 1;
         int left = packListWidget.getRowLeft() - 2;
-        int right = packListWidget.getRowRight() - 2;
         int w = packListWidget.getRowWidth();
-
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferBuilder = tessellator.getBuffer();
-        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
-        RenderSystem.setShaderTexture(0, DrawableHelper.OPTIONS_BACKGROUND_TEXTURE);
-        RenderSystem.setShaderColor(1, 1, 1, 1);
-        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
-        bufferBuilder.vertex(left, bottom, 0).texture(left / 32f, bottom / 32f).color(32, 32, 32, 255).next();
-        bufferBuilder.vertex(right, bottom, 0).texture(right / 32f, bottom / 32f).color(32, 32, 32, 255).next();
-        bufferBuilder.vertex(right, top, 0).texture(right / 32f, top / 32f).color(32, 32, 32, 255).next();
-        bufferBuilder.vertex(left, top, 0).texture(left / 32f, top / 32f).color(32, 32, 32, 255).next();
-        tessellator.draw();
 
         Text text1 = packListWidget instanceof ListWidgetDuckProvider duck ? duck.getHeaderText() : new LiteralText("");
         Text text = (new LiteralText("")).append(text1).formatted(Formatting.UNDERLINE, Formatting.BOLD);
