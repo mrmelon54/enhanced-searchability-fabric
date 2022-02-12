@@ -1,4 +1,4 @@
-package net.onpointcoding.enhancedsearchability.mixin;
+package xyz.mrmelon54.enhancedsearchability.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -8,18 +8,21 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.onpointcoding.enhancedsearchability.duck.ListWidgetDuckProvider;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.mrmelon54.enhancedsearchability.client.EnhancedSearchabilityClient;
+import xyz.mrmelon54.enhancedsearchability.duck.ListWidgetDuckProvider;
 
 import java.util.List;
 
 @Mixin(value = MultiplayerScreen.class)
 public class MixinMultiplayerScreen extends Screen {
+    private final boolean enabled = EnhancedSearchabilityClient.getInstance().enableServerSearchBar();
+
     @Shadow
     protected MultiplayerServerListWidget serverListWidget;
     @Shadow
@@ -35,23 +38,27 @@ public class MixinMultiplayerScreen extends Screen {
 
     @Inject(method = "init", at = @At("TAIL"))
     private void injected_init(CallbackInfo ci) {
-        MinecraftClient mc = MinecraftClient.getInstance();
-        this.serverSearchBox = addSearchBox(mc, this.serverListWidget, this.serverSearchBox);
-        this.setInitialFocus(this.serverSearchBox);
+        if (enabled) {
+            MinecraftClient mc = MinecraftClient.getInstance();
+            this.serverSearchBox = addSearchBox(mc, this.serverListWidget, this.serverSearchBox);
+            this.setInitialFocus(this.serverSearchBox);
 
-        if (this.initialized)
-            setupOriginalServerListOffset(this.serverListWidget);
+            if (this.initialized)
+                setupOriginalServerListOffset(this.serverListWidget);
+        }
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/multiplayer/MultiplayerScreen;drawCenteredText(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)V", shift = At.Shift.BEFORE), cancellable = true)
     private void injected_render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 8, 16777215);
-        super.render(matrices, mouseX, mouseY, delta);
-        if (this.tooltipText != null) {
-            this.renderTooltip(matrices, this.tooltipText, mouseX, mouseY);
+        if (enabled) {
+            drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 8, 16777215);
+            super.render(matrices, mouseX, mouseY, delta);
+            if (this.tooltipText != null) {
+                this.renderTooltip(matrices, this.tooltipText, mouseX, mouseY);
+            }
+            this.serverSearchBox.render(matrices, mouseX, mouseY, delta);
+            ci.cancel();
         }
-        this.serverSearchBox.render(matrices, mouseX, mouseY, delta);
-        ci.cancel();
     }
 
     void setupOriginalServerListOffset(MultiplayerServerListWidget multiplayerServerListWidget) {

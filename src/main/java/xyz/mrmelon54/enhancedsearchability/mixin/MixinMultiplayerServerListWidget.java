@@ -1,11 +1,10 @@
-package net.onpointcoding.enhancedsearchability.mixin;
+package xyz.mrmelon54.enhancedsearchability.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerServerListWidget;
 import net.minecraft.client.gui.screen.pack.PackListWidget;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
 import net.minecraft.text.Text;
-import net.onpointcoding.enhancedsearchability.duck.ListWidgetDuckProvider;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,6 +13,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.mrmelon54.enhancedsearchability.client.EnhancedSearchabilityClient;
+import xyz.mrmelon54.enhancedsearchability.duck.ListWidgetDuckProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +24,18 @@ import java.util.stream.Stream;
 
 @Mixin(MultiplayerServerListWidget.class)
 public class MixinMultiplayerServerListWidget extends AlwaysSelectedEntryListWidget<MultiplayerServerListWidget.Entry> implements ListWidgetDuckProvider {
+    private final boolean enabled = EnhancedSearchabilityClient.getInstance().enableServerSearchBar();
+
     @Shadow
     @Final
     private MultiplayerServerListWidget.Entry scanningEntry;
 
+    @Shadow
+    @Final
+    private List<MultiplayerServerListWidget.ServerEntry> servers;
+    @Shadow
+    @Final
+    private List<MultiplayerServerListWidget.LanServerEntry> lanServers;
     private final List<MultiplayerServerListWidget.ServerEntry> serverSyncStore = new ArrayList<>();
     private final List<MultiplayerServerListWidget.LanServerEntry> lanServerSyncStore = new ArrayList<>();
     private Supplier<String> searchTextStore = () -> "";
@@ -42,23 +51,26 @@ public class MixinMultiplayerServerListWidget extends AlwaysSelectedEntryListWid
 
     @Override
     public void filter(Supplier<String> searchTextSupplier) {
-        searchTextStore = searchTextSupplier;
-        customAddServerStreamToUI(this.serverSyncStore.stream(), this.lanServerSyncStore.stream(), searchTextStore);
+        if (enabled) {
+            searchTextStore = searchTextSupplier;
+            customAddServerStreamToUI(this.serverSyncStore.stream(), this.lanServerSyncStore.stream(), searchTextStore);
+        }
     }
 
     @Inject(method = "updateEntries", at = @At("TAIL"))
     private void injected_updateEntries(CallbackInfo ci) {
-        customAddServerStreamToUI(this.serverSyncStore.stream(), this.lanServerSyncStore.stream(), searchTextStore);
+        if (enabled)
+            customAddServerStreamToUI(this.serverSyncStore.stream(), this.lanServerSyncStore.stream(), searchTextStore);
     }
 
     @Redirect(method = "setServers", at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/screen/multiplayer/MultiplayerServerListWidget;servers:Ljava/util/List;", opcode = Opcodes.GETFIELD))
     private List<MultiplayerServerListWidget.ServerEntry> redirectServersList(MultiplayerServerListWidget instance) {
-        return serverSyncStore;
+        return enabled ? serverSyncStore : this.servers;
     }
 
     @Redirect(method = "setLanServers", at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/screen/multiplayer/MultiplayerServerListWidget;lanServers:Ljava/util/List;", opcode = Opcodes.GETFIELD))
     private List<MultiplayerServerListWidget.LanServerEntry> redirectLanServersList(MultiplayerServerListWidget instance) {
-        return lanServerSyncStore;
+        return enabled ? lanServerSyncStore : this.lanServers;
     }
 
     private void customAddServerStreamToUI(Stream<MultiplayerServerListWidget.ServerEntry> serverStream, Stream<MultiplayerServerListWidget.LanServerEntry> lanServerStream, Supplier<String> searchTextSupplier) {

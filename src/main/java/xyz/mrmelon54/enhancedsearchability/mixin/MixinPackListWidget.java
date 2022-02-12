@@ -1,16 +1,17 @@
-package net.onpointcoding.enhancedsearchability.mixin;
+package xyz.mrmelon54.enhancedsearchability.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.pack.PackListWidget;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.text.Text;
-import net.onpointcoding.enhancedsearchability.duck.ListWidgetDuckProvider;
-import net.onpointcoding.enhancedsearchability.duck.ResourcePackEntryDuckProvider;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import xyz.mrmelon54.enhancedsearchability.client.EnhancedSearchabilityClient;
+import xyz.mrmelon54.enhancedsearchability.duck.ListWidgetDuckProvider;
+import xyz.mrmelon54.enhancedsearchability.duck.ResourcePackEntryDuckProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,8 @@ import java.util.function.Supplier;
 
 @Mixin(PackListWidget.class)
 public abstract class MixinPackListWidget extends EntryListWidget<PackListWidget.ResourcePackEntry> implements ListWidgetDuckProvider {
+    private final boolean enabled = EnhancedSearchabilityClient.getInstance().enableResourcePackSearchBar();
+
     @Shadow
     @Final
     private Text title;
@@ -30,7 +33,8 @@ public abstract class MixinPackListWidget extends EntryListWidget<PackListWidget
 
     @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/pack/PackListWidget;setRenderHeader(ZI)V"))
     private void redirected_setRenderHeader(PackListWidget instance, boolean b, int i) {
-        this.setRenderHeader(b, i + 22);
+        if (enabled)
+            this.setRenderHeader(b, i + 22);
     }
 
     @Override

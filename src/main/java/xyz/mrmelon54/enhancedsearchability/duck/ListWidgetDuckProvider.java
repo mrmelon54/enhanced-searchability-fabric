@@ -1,4 +1,4 @@
-package net.onpointcoding.enhancedsearchability.duck;
+package xyz.mrmelon54.enhancedsearchability.duck;
 
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerServerListWidget;
 import net.minecraft.client.gui.screen.pack.PackListWidget;

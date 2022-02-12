@@ -1,4 +1,4 @@
-package net.onpointcoding.enhancedsearchability.mixin;
+package xyz.mrmelon54.enhancedsearchability.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -12,18 +12,21 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
-import net.onpointcoding.enhancedsearchability.duck.ListWidgetDuckProvider;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.mrmelon54.enhancedsearchability.client.EnhancedSearchabilityClient;
+import xyz.mrmelon54.enhancedsearchability.duck.ListWidgetDuckProvider;
 
 import java.util.stream.Stream;
 
 @Mixin(PackScreen.class)
 public abstract class MixinPackScreen extends Screen {
+    private final boolean enabled = EnhancedSearchabilityClient.getInstance().enableResourcePackSearchBar();
+
     @Shadow
     private PackListWidget availablePackList;
     @Shadow
@@ -46,12 +49,14 @@ public abstract class MixinPackScreen extends Screen {
 
     @Inject(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/pack/PackScreen;refresh()V", shift = At.Shift.BEFORE))
     private void injected_init(CallbackInfo ci) {
-        MinecraftClient mc = MinecraftClient.getInstance();
-        this.availablePackSearchBox = addSearchBox(mc, this.availablePackList, this.availablePackSearchBox);
-        this.selectedPackSearchBox = addSearchBox(mc, this.selectedPackList, this.selectedPackSearchBox);
+        if (enabled) {
+            MinecraftClient mc = MinecraftClient.getInstance();
+            this.availablePackSearchBox = addSearchBox(mc, this.availablePackList, this.availablePackSearchBox);
+            this.selectedPackSearchBox = addSearchBox(mc, this.selectedPackList, this.selectedPackSearchBox);
 
-        setupOriginalPackListOffset(this.availablePackList);
-        setupOriginalPackListOffset(this.selectedPackList);
+            setupOriginalPackListOffset(this.availablePackList);
+            setupOriginalPackListOffset(this.selectedPackList);
+        }
     }
 
     void setupOriginalPackListOffset(PackListWidget packListWidget) {
@@ -71,12 +76,14 @@ public abstract class MixinPackScreen extends Screen {
 
     @Inject(method = "render", at = @At("TAIL"))
     private void injected_render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        this.availablePackSearchBox.render(matrices, mouseX, mouseY, delta);
-        this.selectedPackSearchBox.render(matrices, mouseX, mouseY, delta);
+        if (enabled) {
+            this.availablePackSearchBox.render(matrices, mouseX, mouseY, delta);
+            this.selectedPackSearchBox.render(matrices, mouseX, mouseY, delta);
 
-        MinecraftClient mc = MinecraftClient.getInstance();
-        renderOverlayHeader(matrices, mc, this.availablePackList);
-        renderOverlayHeader(matrices, mc, this.selectedPackList);
+            MinecraftClient mc = MinecraftClient.getInstance();
+            renderOverlayHeader(matrices, mc, this.availablePackList);
+            renderOverlayHeader(matrices, mc, this.selectedPackList);
+        }
     }
 
     void renderOverlayHeader(MatrixStack matrices, MinecraftClient mc, PackListWidget packListWidget) {
@@ -90,17 +97,19 @@ public abstract class MixinPackScreen extends Screen {
 
     @Inject(method = "updatePackLists", at = @At("HEAD"), cancellable = true)
     private void injected_updatePackLists(CallbackInfo ci) {
-        if (this.client != null) {
-            if (this.availablePackList instanceof ListWidgetDuckProvider duckProvider && this.availablePackSearchBox != null) {
-                customUpdatePackList(this.client, this.availablePackList, duckProvider, this.organizer.getDisabledPacks());
-                duckProvider.filter(() -> this.availablePackSearchBox.getText());
+        if (enabled) {
+            if (this.client != null) {
+                if (this.availablePackList instanceof ListWidgetDuckProvider duckProvider && this.availablePackSearchBox != null) {
+                    customUpdatePackList(this.client, this.availablePackList, duckProvider, this.organizer.getDisabledPacks());
+                    duckProvider.filter(() -> this.availablePackSearchBox.getText());
+                }
+                if (this.selectedPackList instanceof ListWidgetDuckProvider duckProvider && this.selectedPackSearchBox != null) {
+                    customUpdatePackList(this.client, this.selectedPackList, duckProvider, this.organizer.getEnabledPacks());
+                    duckProvider.filter(() -> this.selectedPackSearchBox.getText());
+                    this.doneButton.active = !duckProvider.getSyncStoreRP().isEmpty();
+                }
+                ci.cancel();
             }
-            if (this.selectedPackList instanceof ListWidgetDuckProvider duckProvider && this.selectedPackSearchBox != null) {
-                customUpdatePackList(this.client, this.selectedPackList, duckProvider, this.organizer.getEnabledPacks());
-                duckProvider.filter(() -> this.selectedPackSearchBox.getText());
-                this.doneButton.active = !duckProvider.getSyncStoreRP().isEmpty();
-            }
-            ci.cancel();
         }
     }
 
@@ -114,13 +123,15 @@ public abstract class MixinPackScreen extends Screen {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (this.availablePackSearchBox != null && this.availablePackSearchBox.mouseClicked(mouseX, mouseY, button)) {
-            this.setFocused(this.availablePackSearchBox);
-            return true;
-        }
-        if (this.selectedPackSearchBox != null && this.selectedPackSearchBox.mouseClicked(mouseX, mouseY, button)) {
-            this.setFocused(this.selectedPackSearchBox);
-            return true;
+        if (enabled) {
+            if (this.availablePackSearchBox != null && this.availablePackSearchBox.mouseClicked(mouseX, mouseY, button)) {
+                this.setFocused(this.availablePackSearchBox);
+                return true;
+            }
+            if (this.selectedPackSearchBox != null && this.selectedPackSearchBox.mouseClicked(mouseX, mouseY, button)) {
+                this.setFocused(this.selectedPackSearchBox);
+                return true;
+            }
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }

@@ -16,7 +16,10 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "net.onpointcoding.enhancedsearchability.client.EnhancedSearchabilityClient"
+      "xyz.mrmelon54.enhancedsearchability.client.EnhancedSearchabilityClient"
+    ],
+    "modmenu": [
+      "xyz.mrmelon54.enhancedsearchability.client.ModMenuIntegration"
     ]
   },
   "mixins": [
@@ -25,6 +28,7 @@
   "depends": {
     "fabricloader": ">=0.12.8",
     "fabric": "*",
-    "minecraft": "1.18.x"
+    "minecraft": "1.18.x",
+    "modmenu": "*"
   }
 }
