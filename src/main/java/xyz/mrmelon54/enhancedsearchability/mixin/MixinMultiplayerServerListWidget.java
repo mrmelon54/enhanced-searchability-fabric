@@ -4,6 +4,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerServerListWidget;
 import net.minecraft.client.gui.screen.pack.PackListWidget;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
+import net.minecraft.text.CharacterVisitor;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
@@ -79,7 +81,14 @@ public class MixinMultiplayerServerListWidget extends AlwaysSelectedEntryListWid
 
         this.children().clear();
         serverStream.forEach(serverEntry -> {
-            if (isEmpty || serverEntry.getServer().name.toLowerCase(Locale.ROOT).contains(s))
+            List<String> a = new ArrayList<>();
+            if (serverEntry.getServer().label != null)
+                serverEntry.getServer().label.asOrderedText().accept((index, style, codePoint) -> {
+                    a.add(Character.toString(codePoint));
+                    return true;
+                });
+            String join = String.join("", a);
+            if (isEmpty || serverEntry.getServer().name.toLowerCase(Locale.ROOT).contains(s) || join.toLowerCase(Locale.ROOT).contains(s))
                 this.children().add(serverEntry);
         });
         this.children().add(this.scanningEntry);
