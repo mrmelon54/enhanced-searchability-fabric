@@ -1,4 +1,4 @@
-package xyz.mrmelon54.enhancedsearchability.mixin;
+package xyz.mrmelon54.EnhancedSearchability.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.pack.PackListWidget;
@@ -9,9 +9,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import xyz.mrmelon54.enhancedsearchability.client.EnhancedSearchabilityClient;
-import xyz.mrmelon54.enhancedsearchability.duck.ListWidgetDuckProvider;
-import xyz.mrmelon54.enhancedsearchability.duck.ResourcePackEntryDuckProvider;
+import xyz.mrmelon54.EnhancedSearchability.client.EnhancedSearchabilityClient;
+import xyz.mrmelon54.EnhancedSearchability.duck.ListWidgetDuckProvider;
+import xyz.mrmelon54.EnhancedSearchability.duck.ResourcePackEntryDuckProvider;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,11 +1,11 @@
-package xyz.mrmelon54.enhancedsearchability.mixin;
+package xyz.mrmelon54.EnhancedSearchability.mixin;
 
 import net.minecraft.client.gui.screen.pack.PackListWidget;
 import net.minecraft.client.gui.screen.pack.ResourcePackOrganizer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import xyz.mrmelon54.enhancedsearchability.duck.ResourcePackEntryDuckProvider;
+import xyz.mrmelon54.EnhancedSearchability.duck.ResourcePackEntryDuckProvider;
 
 @Mixin(PackListWidget.ResourcePackEntry.class)
 public class MixinResourcePackEntry implements ResourcePackEntryDuckProvider {

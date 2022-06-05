@@ -2,31 +2,32 @@
   "schemaVersion": 1,
   "id": "enhanced-searchability",
   "version": "${version}",
-  "name": "EnhancedSearchability",
+  "name": "Enhanced Searchability",
   "description": "Adds useful search boxes into the UI",
   "authors": [
     "MrMelon54"
   ],
   "contact": {
-    "homepage": "https://minecraft.mrmelon54.xyz/mods/enhancedsearchability",
-    "sources": "https://github.com/MrMelon54/enhanced-searchability-fabric"
+    "homepage": "https://minecraft.mrmelon54.xyz/mods/enhanced-searchability",
+    "sources": "https://github.com/MrMelon54/enhanced-searchability-fabric",
+    "issues": "https://github.com/MrMelon54/enhanced-searchability-fabric/issues"
   },
   "license": "MIT",
-  "icon": "assets/enhancedsearchability/icon.png",
+  "icon": "assets/enhanced-searchability/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
-      "xyz.mrmelon54.enhancedsearchability.client.EnhancedSearchabilityClient"
+      "xyz.mrmelon54.EnhancedSearchability.client.EnhancedSearchabilityClient"
     ],
     "modmenu": [
-      "xyz.mrmelon54.enhancedsearchability.client.ModMenuIntegration"
+      "xyz.mrmelon54.EnhancedSearchability.client.ModMenuIntegration"
     ]
   },
   "mixins": [
     "EnhancedSearchability.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.12.8",
+    "fabricloader": ">=0.14.0",
     "fabric": "*",
     "minecraft": "1.18.x",
     "modmenu": "*"

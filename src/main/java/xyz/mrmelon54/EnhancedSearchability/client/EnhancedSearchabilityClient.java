@@ -1,11 +1,11 @@
-package xyz.mrmelon54.enhancedsearchability.client;
+package xyz.mrmelon54.EnhancedSearchability.client;
 
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import xyz.mrmelon54.enhancedsearchability.config.ConfigStructure;
+import xyz.mrmelon54.EnhancedSearchability.config.ConfigStructure;
 
 @Environment(EnvType.CLIENT)
 public class EnhancedSearchabilityClient implements ClientModInitializer {

@@ -1,11 +1,9 @@
-package xyz.mrmelon54.enhancedsearchability.mixin;
+package xyz.mrmelon54.EnhancedSearchability.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerServerListWidget;
 import net.minecraft.client.gui.screen.pack.PackListWidget;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
-import net.minecraft.text.CharacterVisitor;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
@@ -15,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.mrmelon54.enhancedsearchability.client.EnhancedSearchabilityClient;
-import xyz.mrmelon54.enhancedsearchability.duck.ListWidgetDuckProvider;
+import xyz.mrmelon54.EnhancedSearchability.client.EnhancedSearchabilityClient;
+import xyz.mrmelon54.EnhancedSearchability.duck.ListWidgetDuckProvider;
 
 import java.util.ArrayList;
 import java.util.List;

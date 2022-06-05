@@ -1,6 +1,5 @@
-package xyz.mrmelon54.enhancedsearchability.duck;
+package xyz.mrmelon54.EnhancedSearchability.duck;
 
-import net.minecraft.client.gui.screen.multiplayer.MultiplayerServerListWidget;
 import net.minecraft.client.gui.screen.pack.PackListWidget;
 import net.minecraft.text.Text;
 

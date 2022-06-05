@@ -1,4 +1,4 @@
-package xyz.mrmelon54.enhancedsearchability.mixin;
+package xyz.mrmelon54.EnhancedSearchability.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.mrmelon54.enhancedsearchability.client.EnhancedSearchabilityClient;
-import xyz.mrmelon54.enhancedsearchability.duck.ListWidgetDuckProvider;
+import xyz.mrmelon54.EnhancedSearchability.client.EnhancedSearchabilityClient;
+import xyz.mrmelon54.EnhancedSearchability.duck.ListWidgetDuckProvider;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class MixinMultiplayerScreen extends Screen {
     private boolean initialized;
     @Shadow
     @Nullable
-    private List<Text> tooltipText;
+    private List<Text> tooltip;
     private TextFieldWidget serverSearchBox;
 
     protected MixinMultiplayerScreen(Text title) {
@@ -53,8 +53,8 @@ public class MixinMultiplayerScreen extends Screen {
         if (enabled) {
             drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 8, 16777215);
             super.render(matrices, mouseX, mouseY, delta);
-            if (this.tooltipText != null) {
-                this.renderTooltip(matrices, this.tooltipText, mouseX, mouseY);
+            if (this.tooltip != null) {
+                this.renderTooltip(matrices, this.tooltip, mouseX, mouseY);
             }
             this.serverSearchBox.render(matrices, mouseX, mouseY, delta);
             ci.cancel();
@@ -67,7 +67,7 @@ public class MixinMultiplayerScreen extends Screen {
     }
 
     TextFieldWidget addSearchBox(MinecraftClient mc, MultiplayerServerListWidget serverListWidget, TextFieldWidget textFieldWidget) {
-        textFieldWidget = new TextFieldWidget(mc.textRenderer, this.width / 2 - 100, 22, 200, 20, textFieldWidget, new TranslatableText("enhancedsearchability.searchbox"));
+        textFieldWidget = new TextFieldWidget(mc.textRenderer, this.width / 2 - 100, 22, 200, 20, textFieldWidget, new TranslatableText("enhanced-searchability.searchBox"));
         textFieldWidget.setChangedListener((search) -> {
             if (serverListWidget instanceof ListWidgetDuckProvider duckProvider)
                 duckProvider.filter(() -> search);
