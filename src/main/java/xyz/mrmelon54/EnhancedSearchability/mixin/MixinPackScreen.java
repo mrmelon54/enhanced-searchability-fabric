@@ -8,9 +8,9 @@ import net.minecraft.client.gui.screen.pack.ResourcePackOrganizer;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.LiteralTextContent;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -65,7 +65,7 @@ public abstract class MixinPackScreen extends Screen {
     }
 
     TextFieldWidget addSearchBox(MinecraftClient mc, PackListWidget packListWidget, TextFieldWidget textFieldWidget) {
-        textFieldWidget = new TextFieldWidget(mc.textRenderer, packListWidget.getRowLeft() - 1, 47, packListWidget.getRowWidth() - 2, 20, textFieldWidget, new TranslatableText("enhanced-searchability.searchBox"));
+        textFieldWidget = new TextFieldWidget(mc.textRenderer, packListWidget.getRowLeft() - 1, 47, packListWidget.getRowWidth() - 2, 20, textFieldWidget, Text.translatable("enhanced-searchability.searchBox"));
         textFieldWidget.setChangedListener((search) -> {
             if (packListWidget instanceof ListWidgetDuckProvider duckProvider)
                 duckProvider.filter(() -> search);
@@ -90,8 +90,8 @@ public abstract class MixinPackScreen extends Screen {
         int left = packListWidget.getRowLeft() - 2;
         int w = packListWidget.getRowWidth();
 
-        Text text1 = packListWidget instanceof ListWidgetDuckProvider duck ? duck.getHeaderText() : new LiteralText("");
-        Text text = (new LiteralText("")).append(text1).formatted(Formatting.UNDERLINE, Formatting.BOLD);
+        Text text1 = packListWidget instanceof ListWidgetDuckProvider duck ? duck.getHeaderText() : Text.literal("");
+        Text text = Text.literal("").append(text1).formatted(Formatting.UNDERLINE, Formatting.BOLD);
         mc.textRenderer.draw(matrices, text, (float) (left + w / 2 - mc.textRenderer.getWidth(text) / 2), 35, 0xffffff);
     }
 

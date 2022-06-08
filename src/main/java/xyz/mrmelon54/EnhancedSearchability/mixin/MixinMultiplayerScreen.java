@@ -7,7 +7,7 @@ import net.minecraft.client.gui.screen.multiplayer.MultiplayerServerListWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -67,7 +67,7 @@ public class MixinMultiplayerScreen extends Screen {
     }
 
     TextFieldWidget addSearchBox(MinecraftClient mc, MultiplayerServerListWidget serverListWidget, TextFieldWidget textFieldWidget) {
-        textFieldWidget = new TextFieldWidget(mc.textRenderer, this.width / 2 - 100, 22, 200, 20, textFieldWidget, new TranslatableText("enhanced-searchability.searchBox"));
+        textFieldWidget = new TextFieldWidget(mc.textRenderer, this.width / 2 - 100, 22, 200, 20, textFieldWidget, Text.translatable("enhanced-searchability.searchBox"));
         textFieldWidget.setChangedListener((search) -> {
             if (serverListWidget instanceof ListWidgetDuckProvider duckProvider)
                 duckProvider.filter(() -> search);

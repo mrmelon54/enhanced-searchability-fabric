@@ -74,8 +74,8 @@ public abstract class MixinPackListWidget extends EntryListWidget<PackListWidget
 
     boolean hasMatchingName(PackListWidget.ResourcePackEntry child, String a) {
         return child instanceof ResourcePackEntryDuckProvider duckProvider &&
-                (duckProvider.getPack().getDisplayName().asString().toLowerCase(Locale.ROOT).contains(a) ||
-                        duckProvider.getPack().getDescription().asString().toLowerCase(Locale.ROOT).contains(a));
+                (duckProvider.getPack().getDisplayName().getString().toLowerCase(Locale.ROOT).contains(a) ||
+                        duckProvider.getPack().getDescription().getString().toLowerCase(Locale.ROOT).contains(a));
     }
 
     @Override
