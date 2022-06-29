@@ -4,7 +4,7 @@
 
 Requires the [Fabric Loader](https://fabricmc.net/use/) and [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api)
 
-Logo made by [CarbonGhost](https://github.com/CarbonGhost)
+Logo made by [@CarbonGhost](https://github.com/CarbonGhost)
 
 ## Setup
 
@@ -25,3 +25,4 @@ This mod adds more search bars into the UI:
 ## Download
 
 - [CurseForge](https://www.curseforge.com/minecraft/mc-mods/enhanced-searchability)
+- [Modrinth](https://modrinth.com/mod/enhanced-searchability)
