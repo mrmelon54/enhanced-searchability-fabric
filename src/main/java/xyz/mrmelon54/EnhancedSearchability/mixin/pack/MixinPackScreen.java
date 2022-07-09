@@ -1,4 +1,4 @@
-package xyz.mrmelon54.EnhancedSearchability.mixin;
+package xyz.mrmelon54.EnhancedSearchability.mixin.pack;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;

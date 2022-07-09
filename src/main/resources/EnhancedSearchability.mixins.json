@@ -5,11 +5,18 @@
   "compatibilityLevel": "JAVA_16",
   "mixins": [],
   "client": [
-    "MixinMultiplayerScreen",
-    "MixinMultiplayerServerListWidget",
-    "MixinPackListWidget",
-    "MixinPackScreen",
-    "MixinResourcePackEntry"
+    "pack.MixinPackListWidget",
+    "pack.MixinPackScreen",
+    "pack.MixinResourcePackEntry",
+    "server.MixinMultiplayerScreen",
+    "server.MixinMultiplayerServerListWidget",
+    "stats.MixinStatScreen",
+    "stats.general.MixinGeneralStatsEntry",
+    "stats.general.MixinGeneralStatsListWidget",
+    "stats.item.MixinItemStatsEntry",
+    "stats.item.MixinItemStatsListWidget",
+    "stats.mob.MixinEntityStatsEntry",
+    "stats.mob.MixinEntityStatsListWidget"
   ],
   "injectors": {
     "defaultRequire": 1

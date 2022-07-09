@@ -35,4 +35,8 @@ public class EnhancedSearchabilityClient implements ClientModInitializer {
     public boolean enableResourcePackSearchBar() {
         return getConfig().resourcePacksEnabled;
     }
+
+    public boolean enableStatsSearchBar() {
+        return getConfig().statsEnabled;
+    }
 }

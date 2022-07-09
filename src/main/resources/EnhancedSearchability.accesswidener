@@ -1,0 +1,8 @@
+accessWidener   v1  named
+
+accessible  class   net/minecraft/client/gui/screen/StatsScreen$GeneralStatsListWidget
+accessible  class   net/minecraft/client/gui/screen/StatsScreen$GeneralStatsListWidget$Entry
+accessible  class   net/minecraft/client/gui/screen/StatsScreen$ItemStatsListWidget
+accessible  class   net/minecraft/client/gui/screen/StatsScreen$ItemStatsListWidget$Entry
+accessible  class   net/minecraft/client/gui/screen/StatsScreen$EntityStatsListWidget
+accessible  class   net/minecraft/client/gui/screen/StatsScreen$EntityStatsListWidget$Entry
