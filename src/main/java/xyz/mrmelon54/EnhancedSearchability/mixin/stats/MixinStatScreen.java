@@ -66,7 +66,7 @@ public abstract class MixinStatScreen extends Screen {
     private void injectedRender(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (enabled) {
             if (this.getSelectedStatList() != null) this.getSelectedStatList().render(matrices, mouseX, mouseY, delta);
-            StatsScreen.drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 8, 0xFFFFFF);
+            StatsScreen.drawCenteredTextWithShadow(matrices, this.textRenderer, this.title, this.width / 2, 8, 0xFFFFFF);
             super.render(matrices, mouseX, mouseY, delta);
             if (statSearchField != null) statSearchField.render(matrices, mouseX, mouseY, delta);
             ci.cancel();

@@ -116,7 +116,7 @@ public abstract class MixinPackScreen extends Screen {
     private void customUpdatePackList(MinecraftClient mc, PackListWidget widget, ListWidgetDuckProvider duck, Stream<ResourcePackOrganizer.Pack> packs) {
         duck.getSyncStoreRP().clear();
         packs.forEach((pack) -> {
-            PackListWidget.ResourcePackEntry resourcePackEntry = new PackListWidget.ResourcePackEntry(mc, widget, this, pack);
+            PackListWidget.ResourcePackEntry resourcePackEntry = new PackListWidget.ResourcePackEntry(mc, widget, pack);
             duck.getSyncStoreRP().add(resourcePackEntry);
         });
     }

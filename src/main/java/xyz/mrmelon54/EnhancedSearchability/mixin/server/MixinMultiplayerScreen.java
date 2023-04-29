@@ -28,7 +28,7 @@ public class MixinMultiplayerScreen extends Screen {
     private boolean initialized;
     @Shadow
     @Nullable
-    private List<Text> tooltip;
+    private List<Text> multiplayerScreenTooltip;
     private TextFieldWidget serverSearchBox;
 
     protected MixinMultiplayerScreen(Text title) {
@@ -47,13 +47,13 @@ public class MixinMultiplayerScreen extends Screen {
         }
     }
 
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/multiplayer/MultiplayerScreen;drawCenteredText(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)V", shift = At.Shift.BEFORE), cancellable = true)
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/multiplayer/MultiplayerScreen;drawCenteredTextWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)V", shift = At.Shift.BEFORE), cancellable = true)
     private void injected_render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (enabled) {
-            drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 8, 16777215);
+            drawCenteredTextWithShadow(matrices, this.textRenderer, this.title, this.width / 2, 8, 16777215);
             super.render(matrices, mouseX, mouseY, delta);
-            if (this.tooltip != null) {
-                this.renderTooltip(matrices, this.tooltip, mouseX, mouseY);
+            if (this.multiplayerScreenTooltip != null) {
+                this.renderTooltip(matrices, this.multiplayerScreenTooltip, mouseX, mouseY);
             }
             this.serverSearchBox.render(matrices, mouseX, mouseY, delta);
             ci.cancel();
